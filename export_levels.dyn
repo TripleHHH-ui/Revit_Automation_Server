@@ -1,0 +1,363 @@
+{
+  "Uuid": "85e4b382-c2f2-4e9d-a7a5-f22999fba252",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "export_levels",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "DSRevitNodesUI.Categories, DSRevitNodesUI",
+      "SelectedIndex": 273,
+      "SelectedString": "OST_Levels",
+      "Id": "3af58264576b4b4b9d0ade9f55c752d0",
+      "NodeType": "ExtensionNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3ae4d8a401d34cadace7d414e14f5e93",
+          "Name": "Category",
+          "Description": "The selected Category.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All built-in categories."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfCategory, DSRevitNodesUI",
+      "Id": "0f8676a51f47480986a69fb9c24171ca",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "71db9012d9244677aab2ff2318358b4a",
+          "Name": "Category",
+          "Description": "The Category",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "728e0345c96c4c6a96703d9f1943ecf7",
+          "Name": "Elements",
+          "Description": "An element class.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Get all elements of the specified category from the model."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "Id": "64aaa21e82614c009549d3d1f7f6ccd5",
+      "NodeType": "FunctionNode",
+      "Inputs": [
+        {
+          "Id": "54da9dc269ee42a6becde07ba899706a",
+          "Name": "element",
+          "Description": "Revit.Elements.Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c33c0091f1244f2286021db49efb2dc0",
+          "Name": "string",
+          "Description": "string",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "FunctionSignature": "Revit.Elements.Element.Name",
+      "Replication": "Auto",
+      "Description": "Get the Name of the Element\n\nElement.Name: string"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "Id": "077d33d55eef4f79bb0d29264a323149",
+      "NodeType": "FunctionNode",
+      "Inputs": [
+        {
+          "Id": "72d7a6b4a57241c5ae6124da905d58aa",
+          "Name": "level",
+          "Description": "Revit.Elements.Level",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "5868537cb1394e3398b6b33804929188",
+          "Name": "double",
+          "Description": "double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "FunctionSignature": "Revit.Elements.Level.Elevation",
+      "Replication": "Auto",
+      "Description": "The elevation of the level above ground level\n\nLevel.Elevation: double"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "Id": "8d29e19bd60842ceb9fed4ace9a3c905",
+      "NodeType": "FunctionNode",
+      "Inputs": [
+        {
+          "Id": "e20453541c85405ea7dacf646cf59435",
+          "Name": "element",
+          "Description": "Revit.Elements.Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "f9b51349e53449c79d618a412a962518",
+          "Name": "int",
+          "Description": "int",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "FunctionSignature": "Revit.Elements.Element.Id",
+      "Replication": "Auto",
+      "Description": "Get the Element Id for this element\n\nElement.Id: int"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "import json\r\nimport os\r\n\r\nnames = IN[0]\r\nelevs = IN[1]\r\nids   = IN[2]\r\n\r\nif not isinstance(names, list):\r\n    names = [names]\r\n\r\nif not isinstance(elevs, list):\r\n    elevs = [elevs]\r\n\r\nif not isinstance(ids, list):\r\n    ids = [ids]\r\n    \r\noutput = []\r\n\r\nfor n, e, i in zip(names, elevs, ids):\r\n    output.append({\r\n        \"name\": n,\r\n        \"elevation\": e,\r\n        \"id\": i\r\n    })\r\nfile_path = r\"C:\\Users\\yhuang\\Downloads\\revit_automation_server\\export_levels.json\"\r\nwith open(file_path, 'w') as f:\r\n    json.dump(output, f, indent=4)\r\n# Output a list of dictionaries directly (NOT a JSON string!)\r\nOUT = output\r\n\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "2984365243c54392a04371742478dfda",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "176c1867b73f4e039d4b5f7b6a15c80e",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d77898ddec5545f28eead77c93c822df",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ccf667a591fc4de6afc598e888532c21",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3969a684cf2644dfb0bf6cc79ca21b83",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "3ae4d8a401d34cadace7d414e14f5e93",
+      "End": "71db9012d9244677aab2ff2318358b4a",
+      "Id": "550893b9d68f4a799010a4368c3b1a44",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "728e0345c96c4c6a96703d9f1943ecf7",
+      "End": "72d7a6b4a57241c5ae6124da905d58aa",
+      "Id": "557c280e1ec04ef5877c80f77ae770d9",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "728e0345c96c4c6a96703d9f1943ecf7",
+      "End": "e20453541c85405ea7dacf646cf59435",
+      "Id": "f44c2acc424b44688463b94700ba0a74",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "728e0345c96c4c6a96703d9f1943ecf7",
+      "End": "54da9dc269ee42a6becde07ba899706a",
+      "Id": "60094169e67e47eca5e85eeeddd48f2c",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "c33c0091f1244f2286021db49efb2dc0",
+      "End": "176c1867b73f4e039d4b5f7b6a15c80e",
+      "Id": "9fa098e9ab114a34a02b037515b3ff62",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "5868537cb1394e3398b6b33804929188",
+      "End": "d77898ddec5545f28eead77c93c822df",
+      "Id": "dd81b49ba94c4660877162516b1c9105",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "f9b51349e53449c79d618a412a962518",
+      "End": "ccf667a591fc4de6afc598e888532c21",
+      "Id": "8d565fe3b8064ccaa86ab87159cc977a",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "EnableLegacyPolyCurveBehavior": true,
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [
+    {
+      "ExtensionGuid": "28992e1d-abb9-417f-8b1b-05e053bee670",
+      "Name": "Properties",
+      "Version": "2.16",
+      "Data": {}
+    },
+    {
+      "ExtensionGuid": "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
+      "Name": "Generative Design",
+      "Version": "3.0",
+      "Data": {}
+    }
+  ],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "None",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "3.3.0.6316",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "_Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Id": "3af58264576b4b4b9d0ade9f55c752d0",
+        "Name": "Categories",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 37.12790884093377,
+        "Y": 146.676915469388
+      },
+      {
+        "Id": "0f8676a51f47480986a69fb9c24171ca",
+        "Name": "All Elements of Category",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 358.12761955155094,
+        "Y": 140.48683840334303
+      },
+      {
+        "Id": "64aaa21e82614c009549d3d1f7f6ccd5",
+        "Name": "Element.Name",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 696.7327330352726,
+        "Y": -14.312355658645288
+      },
+      {
+        "Id": "077d33d55eef4f79bb0d29264a323149",
+        "Name": "Level.Elevation",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 703.7914594704284,
+        "Y": 137.261246440174
+      },
+      {
+        "Id": "8d29e19bd60842ceb9fed4ace9a3c905",
+        "Name": "Element.Id",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 697.9675472476595,
+        "Y": 299.79871440996783
+      },
+      {
+        "Id": "2984365243c54392a04371742478dfda",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1404.6254087799068,
+        "Y": 128.916286305403
+      }
+    ],
+    "Annotations": [],
+    "X": -599.6267678620252,
+    "Y": 345.5967558247026,
+    "Zoom": 0.9899575919645249
+  }
+}

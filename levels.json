@@ -1,0 +1,82 @@
+[
+    {
+        "name": "Level 1",
+        "elevation": 4099.999999999999,
+        "id": 1819
+    },
+    {
+        "name": "1A DECK",
+        "elevation": 4099.999999999999,
+        "id": 43687
+    },
+    {
+        "name": "2A DECK",
+        "elevation": 7074.999999999997,
+        "id": 43808
+    },
+    {
+        "name": "3A DECK",
+        "elevation": 10049.999999999993,
+        "id": 43852
+    },
+    {
+        "name": "4A DECK",
+        "elevation": 13024.999999999987,
+        "id": 43896
+    },
+    {
+        "name": "5A DECK",
+        "elevation": 15999.999999999982,
+        "id": 43940
+    },
+    {
+        "name": "6A DECK",
+        "elevation": 18974.999999999967,
+        "id": 43984
+    },
+    {
+        "name": "1B DECK",
+        "elevation": 5499.999999999998,
+        "id": 44564
+    },
+    {
+        "name": "2B DECK",
+        "elevation": 8474.999999999996,
+        "id": 44608
+    },
+    {
+        "name": "3B DECK",
+        "elevation": 11449.999999999996,
+        "id": 44652
+    },
+    {
+        "name": "4B DECK",
+        "elevation": 14424.999999999995,
+        "id": 44696
+    },
+    {
+        "name": "5B DECK",
+        "elevation": 17399.999999999996,
+        "id": 44740
+    },
+    {
+        "name": "6B DECK",
+        "elevation": 20374.999999999993,
+        "id": 44784
+    },
+    {
+        "name": "ROOF GARDEN",
+        "elevation": 24574.99999999997,
+        "id": 44828
+    },
+    {
+        "name": "LIFT MOTOR ROOM",
+        "elevation": 30349.99999999997,
+        "id": 624208
+    },
+    {
+        "name": "LIFT MOTOR ROOM ROOF",
+        "elevation": 33049.99999999997,
+        "id": 624370
+    }
+]
